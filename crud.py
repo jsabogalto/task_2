@@ -9,7 +9,16 @@ async def get_posts():
     if response:
         return response.json()
     return None
-    
+
+async def get_posts_titles():
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"{base_url}")
+    if response:
+        dict_posts = response.json()
+        only_titles = [{"title": post["title"]} for post in dict_posts]
+        return only_titles
+    return None
+
 async def get_post(post_id: int):
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{base_url}/{post_id}")

@@ -1,9 +1,16 @@
-from schemas import PostCreate, Post, PostUpdate
+from schemas import PostCreate, Post, PostUpdate, PostTitles
 from fastapi import APIRouter, status, HTTPException
 from typing import List
-from crud import get_posts, get_post, send_post, update_posts, delete_post
+from crud import get_posts, get_post, send_post, update_posts, delete_post, get_posts_titles
 
 router = APIRouter(prefix="/postsAPI", tags=["postsAPI"])
+
+@router.get("/titles", response_model=List[PostTitles] ,status_code=status.HTTP_200_OK)
+async def get_titles():
+    titles = await get_posts_titles()
+    if not titles:
+        raise HTTPException(status_code=404, detail="posts not found")
+    return titles
 
 @router.get("/", response_model=List[Post], status_code=status.HTTP_200_OK)
 async def read_posts():

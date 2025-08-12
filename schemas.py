@@ -18,3 +18,7 @@ class Post(PostBase):
     class Config:
         orm_mode = True
 
+class PostTitles(BaseModel):
+    title : str
+    class Config:
+        orm_mode = True
